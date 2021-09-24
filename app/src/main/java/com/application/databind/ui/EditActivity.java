@@ -28,6 +28,7 @@ public class EditActivity extends AppCompatActivity {
     ActivityEditBinding binding;
     static boolean isSaved = false;
     String fileName = null;
+    Bitmap clickedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class EditActivity extends AppCompatActivity {
         File file = new File(Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_PICTURES + "/Images", fileName);
         Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
         if (!file.exists() || null == myBitmap) return;
+        clickedImage = myBitmap;
         Bitmap bOutput;
         Matrix matrix = new Matrix();
         matrix.setRotate(0);
@@ -74,6 +76,7 @@ public class EditActivity extends AppCompatActivity {
         if(!isSaved &&  null != fileName){
             File file = new File(Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_PICTURES + "/Images", fileName);
             if(file.exists()) file.delete();
+            getSharedPreferences(DEVICE_PREF,MODE_PRIVATE).edit().putString(FILE_NAME,null).apply();
         }
     }
 }

@@ -26,6 +26,7 @@ public class FileUtils {
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
         cursor.moveToFirst();
+        Log.d("_path", "getPath: "+cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA)));
         String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
         cursor.close();
 

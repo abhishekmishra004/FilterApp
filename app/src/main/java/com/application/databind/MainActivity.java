@@ -132,8 +132,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setImage(String fileName) {
         File file = new File(Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_PICTURES + "/Images", fileName);
+        if(!file.exists()) return;
         Bitmap myBitmap = getResizedBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()),1000);
-        if (!file.exists() || null == myBitmap) return;
+        if (null == myBitmap) return;
         Bitmap bOutput;
         Matrix matrix = new Matrix();
         matrix.setRotate(0);

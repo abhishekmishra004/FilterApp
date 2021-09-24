@@ -210,7 +210,8 @@ public class CameraActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     Matrix matrix = new Matrix();
-                    matrix.setRotate(-90);
+                    matrix.setRotate(90);
+                    matrix.preScale(-1, 1);
                     finalImage = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
                     gpuImageView.setImage(finalImage);
                 }
@@ -232,7 +233,7 @@ public class CameraActivity extends AppCompatActivity {
         if(pos == 0)filter = new GPUImageFilter();
         else if(pos == 1) filter = new GPUImageGrayscaleFilter();
         else if(pos == 2) filter = new GPUImageContrastFilter(2f);
-        else if(pos == 3) filter = new GPUImageGammaFilter(3f);
+        else if(pos == 3) filter = new GPUImageGammaFilter(2f);
         else filter = new  GPUImageColorInvertFilter();
         gpuImageView.setFilter(filter);
     }

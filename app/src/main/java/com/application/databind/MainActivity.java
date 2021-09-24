@@ -115,13 +115,13 @@ public class MainActivity extends AppCompatActivity {
             });
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        binding.image.setImageDrawable(null);
-        String fileName = getSharedPreferences(DEVICE_PREF, MODE_PRIVATE).getString(FILE_NAME, null);
+    protected void onResume() {
+        super.onResume();
+        binding.image.setImageBitmap(null);
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
+                String fileName = getSharedPreferences(DEVICE_PREF, MODE_PRIVATE).getString(FILE_NAME, null);
                 if (fileName != null)
                     setImage(fileName);
             }
@@ -142,6 +142,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        getSharedPreferences(DEVICE_PREF, MODE_PRIVATE).edit().putString(FILE_NAME, null).apply();
+        //getSharedPreferences(DEVICE_PREF, MODE_PRIVATE).edit().putString(FILE_NAME, null).apply();
     }
 }

@@ -59,6 +59,7 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/tv_undo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="UNDO"
@@ -69,6 +70,7 @@
                 android:fontFamily="@font/maderabold" />
 
             <TextView
+                android:id="@+id/tv_rotate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="ROTATE"
@@ -79,6 +81,7 @@
                 android:fontFamily="@font/maderabold" />
 
             <TextView
+                android:id="@+id/tv_crop"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="CROP"

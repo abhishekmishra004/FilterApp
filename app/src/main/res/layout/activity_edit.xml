@@ -49,6 +49,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/ll_button" />
 
+        <com.lyft.android.scissors.CropView
+            android:id="@+id/crop_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:cropviewViewportRatio="1"
+            android:layout_margin="10dp"
+            android:scaleType="fitXY"
+            app:layout_constraintTop_toBottomOf="@id/rv_toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/ll_crop" />
+
         <LinearLayout
             android:id="@+id/ll_button"
             android:layout_width="match_parent"
@@ -85,6 +96,36 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="CROP"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:layout_margin="10dp"
+                android:fontFamily="@font/maderabold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_crop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:id="@+id/tv_cancel_crop"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:layout_margin="10dp"
+                android:fontFamily="@font/maderabold" />
+            <TextView
+                android:id="@+id/tv_save_crop"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Save"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="@color/black"

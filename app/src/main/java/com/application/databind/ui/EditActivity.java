@@ -1,19 +1,28 @@
 package com.application.databind.ui;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.Toast;
 
@@ -48,6 +57,9 @@ public class EditActivity extends AppCompatActivity {
         context = this;
         progressDialog = new ProgressDialog(context);
 
+        binding.cropView.setVisibility(View.GONE);
+        binding.llCrop.setVisibility(View.GONE);
+
         binding.ivBack.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -56,21 +68,7 @@ public class EditActivity extends AppCompatActivity {
             isSaved = true;
             progressDialog.setMessage("saving image ....");
             progressDialog.show();
-            File file = new File(Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_PICTURES + "/Images", fileName);
-            try (FileOutputStream out = new FileOutputStream(file)) {
-                clickedImage.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                new Handler(Looper.getMainLooper()).postDelayed((Runnable) () -> {
-                    Toast.makeText(context, "Image saved.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                    progressDialog.cancel();
-                    onBackPressed();
-                },1500);
-            } catch (IOException e) {
-                Toast.makeText(context, "error-"+e.getMessage(), Toast.LENGTH_SHORT).show();
-                progressDialog.cancel();
-                e.printStackTrace();
-                onBackPressed();
-            }
+            storeImage();
         });
 
         binding.tvRotate.setOnClickListener(v -> {
@@ -83,6 +81,49 @@ public class EditActivity extends AppCompatActivity {
             binding.image.setImageBitmap(prevImage);
             clickedImage = prevImage;
         });
+
+        binding.tvCrop.setOnClickListener(v -> {
+            previousBitmap.push(clickedImage);
+            binding.image.setVisibility(View.GONE);
+            binding.llButton.setVisibility(View.GONE);
+            binding.cropView.setVisibility(View.VISIBLE);
+            binding.llCrop.setVisibility(View.VISIBLE);
+            binding.cropView.setImageBitmap(clickedImage);
+        });
+
+        binding.tvCancelCrop.setOnClickListener(v -> {
+            binding.image.setVisibility(View.VISIBLE);
+            binding.llButton.setVisibility(View.VISIBLE);
+            binding.cropView.setVisibility(View.GONE);
+            binding.llCrop.setVisibility(View.GONE);
+        });
+
+        binding.tvSaveCrop.setOnClickListener(v -> {
+            binding.image.setVisibility(View.VISIBLE);
+            binding.llButton.setVisibility(View.VISIBLE);
+            binding.cropView.setVisibility(View.GONE);
+            binding.llCrop.setVisibility(View.GONE);
+            clickedImage = binding.cropView.crop();
+            binding.image.setImageBitmap(clickedImage);
+        });
+    }
+
+    private void storeImage() {
+        File file = new File(Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_PICTURES + "/Images", fileName);
+        try (FileOutputStream out = new FileOutputStream(file)) {
+            clickedImage.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            new Handler(Looper.getMainLooper()).postDelayed((Runnable) () -> {
+                Toast.makeText(context, "Image saved.", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                if(progressDialog.isShowing()) progressDialog.cancel();
+                onBackPressed();
+            },1500);
+        } catch (IOException e) {
+            Toast.makeText(context, "error-"+e.getMessage(), Toast.LENGTH_SHORT).show();
+            progressDialog.cancel();
+            e.printStackTrace();
+            onBackPressed();
+        }
     }
 
     private void rotateImage() {

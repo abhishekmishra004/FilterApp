@@ -64,7 +64,9 @@ dependencies {
 
 
     implementation 'jp.co.cyberagent.android:gpuimage:2.0.4'
-    implementation"com.wefika:flowlayout:0.4.1"
+    implementation "com.wefika:flowlayout:0.4.1"
+
+    implementation 'com.lyft:scissors:1.1.1'
 
 }
 repositories {

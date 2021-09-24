@@ -141,24 +141,6 @@ public class CameraActivity extends AppCompatActivity {
             startActivity(new Intent(this,EditActivity.class));
             finish();
         });
-        /*ImageCapture.OutputFileOptions outputOptions  =  new ImageCapture.OutputFileOptions.Builder(photoFile).build();
-        imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this), new ImageCapture.OnImageSavedCallback() {
-            @Override
-            public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                Uri save = Uri.fromFile(photoFile);
-                String msg = "Photo capture succeeded: "+save;
-                getSharedPreferences(DEVICE_PREF,MODE_PRIVATE).edit().putString(FILE_NAME,fileName).apply();
-                moveFile(photoFile.getAbsolutePath(),fileName,true);
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onError(@NonNull ImageCaptureException exception) {
-                Toast.makeText(context, "Unable to save "+exception.getCause().getMessage(), Toast.LENGTH_LONG).show();
-                exception.printStackTrace();
-                Log.d(TAG, "onError: exception "+exception.getCause().getMessage());
-            }
-        });*/
     }
 
     

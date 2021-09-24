@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -43,7 +44,9 @@ import java.util.concurrent.Executors;
 
 import jp.co.cyberagent.android.gpuimage.GPUImageView;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageColorInvertFilter;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageContrastFilter;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageGammaFilter;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageGrayscaleFilter;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageSketchFilter;
 
@@ -88,12 +91,14 @@ public class CameraActivity extends AppCompatActivity {
         converter = new YuvToRgbConverter(this);
         converter.init();
         filters.add("No filter");
-        filters.add("Sketch");
-        filters.add("Color Invert");
         filters.add("GrayScale");
+        filters.add("Contrast");
+        filters.add("Gamma");
+        filters.add("Color Invert");
         adapter = new FilterAdapter(context,filters);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        layoutManager.scrollToPositionWithOffset(2, 20);
         rvFilter.setLayoutManager(layoutManager);
         rvFilter.setAdapter(adapter);
 
@@ -133,6 +138,8 @@ public class CameraActivity extends AppCompatActivity {
             String msg = "Photo capture succeeded ";
             getSharedPreferences(DEVICE_PREF,MODE_PRIVATE).edit().putString(FILE_NAME,fileName).apply();
             Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this,EditActivity.class));
+            finish();
         });
         /*ImageCapture.OutputFileOptions outputOptions  =  new ImageCapture.OutputFileOptions.Builder(photoFile).build();
         imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this), new ImageCapture.OnImageSavedCallback() {
@@ -223,9 +230,10 @@ public class CameraActivity extends AppCompatActivity {
     public void clickedIndex(int pos){
         GPUImageFilter filter;
         if(pos == 0)filter = new GPUImageFilter();
-        else if(pos == 1) filter =new GPUImageSketchFilter();
-        else if(pos == 2) filter =new GPUImageColorInvertFilter();
-        else filter = new GPUImageGrayscaleFilter();
+        else if(pos == 1) filter = new GPUImageGrayscaleFilter();
+        else if(pos == 2) filter = new GPUImageContrastFilter(2f);
+        else if(pos == 3) filter = new GPUImageGammaFilter(3f);
+        else filter = new  GPUImageColorInvertFilter();
         gpuImageView.setFilter(filter);
     }
 }

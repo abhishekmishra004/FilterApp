@@ -25,6 +25,7 @@ import com.application.databind.model.MainActivityModel;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Stack;
 
 import static com.application.databind.util.Constants.DEVICE_PREF;
 import static com.application.databind.util.Constants.FILE_NAME;
@@ -36,7 +37,7 @@ public class EditActivity extends AppCompatActivity {
     static boolean isSaved = false;
     String fileName = null;
     Bitmap clickedImage,prevImage;
-
+    Stack<Bitmap> previousBitmap = new Stack<>();
     ProgressDialog progressDialog;
 
     @Override
@@ -73,10 +74,12 @@ public class EditActivity extends AppCompatActivity {
         });
 
         binding.tvRotate.setOnClickListener(v -> {
+            previousBitmap.push(clickedImage);
             rotateImage();
         });
 
         binding.tvUndo.setOnClickListener(v -> {
+            if(previousBitmap.size() > 0) prevImage = previousBitmap.pop();
             binding.image.setImageBitmap(prevImage);
             clickedImage = prevImage;
         });

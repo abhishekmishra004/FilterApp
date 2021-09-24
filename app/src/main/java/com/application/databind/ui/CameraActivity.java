@@ -139,6 +139,7 @@ public class CameraActivity extends AppCompatActivity {
             getSharedPreferences(DEVICE_PREF,MODE_PRIVATE).edit().putString(FILE_NAME,fileName).apply();
             Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this,EditActivity.class));
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
         });
     }
@@ -218,5 +219,11 @@ public class CameraActivity extends AppCompatActivity {
         else if(pos == 3) filter = new GPUImageGammaFilter(2f);
         else filter = new  GPUImageColorInvertFilter();
         gpuImageView.setFilter(filter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
     }
 }

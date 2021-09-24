@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Selfie", "onSelfieClicked: funtion called value" + aBoolean);
             if (aBoolean) {
                 startActivity(new Intent(this, CameraActivity.class));
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
 
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                             myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
                             getSharedPreferences(DEVICE_PREF,MODE_PRIVATE).edit().putString(FILE_NAME,fileName).apply();
                             startActivity(new Intent(this, EditActivity.class));
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         } catch (IOException e) {
                             Toast.makeText(context, "error-"+e.getMessage(), Toast.LENGTH_SHORT).show();
                             e.printStackTrace();

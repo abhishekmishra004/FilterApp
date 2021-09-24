@@ -115,6 +115,7 @@ public class EditActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).postDelayed((Runnable) () -> {
                 Toast.makeText(context, "Image saved.", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 if(progressDialog.isShowing()) progressDialog.cancel();
                 onBackPressed();
             },1500);
@@ -165,5 +166,6 @@ public class EditActivity extends AppCompatActivity {
             if(file.exists()) file.delete();
             getSharedPreferences(DEVICE_PREF,MODE_PRIVATE).edit().putString(FILE_NAME,null).apply();
         }
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
     }
 }
